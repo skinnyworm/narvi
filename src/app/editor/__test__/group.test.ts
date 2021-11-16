@@ -1,5 +1,5 @@
-import { group, OutputSpec } from "../group";
-import { DataSource } from "../types";
+import { group } from "../group";
+import { DataSource, OutputSpec } from "../types";
 import { autoSales } from "../mocks/dataset";
 
 test("it should group", () => {
