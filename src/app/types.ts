@@ -8,6 +8,7 @@ export type Schema = {
 };
 
 export type DataSource = {
+  id: string;
   meta: {
     title: string;
     schema: Schema[];
@@ -23,7 +24,7 @@ export type OutputSpec = {
   format?: "currency" | "number" | "percent";
 };
 
-export type WidgetSpec =
+export type ChartSpec =
   | LineChartSpec
   | BarChatSpec
   | SpiderChartSpec
@@ -47,4 +48,14 @@ export type SpiderChartSpec = {
 export type PieChartSpec = {
   type: "pie-chart";
   valueField: string;
+};
+
+export type Widget = {
+  id: string;
+  title: string;
+  datasource: string;
+  label: LabelSpec;
+  output: OutputSpec[];
+  charts: ChartSpec[];
+  size: "s" | "m" | "l";
 };

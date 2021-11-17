@@ -1,1 +1,2 @@
-export * from "./EditorPage";
+export * from "./NewWidgetPage";
+export * from "./WidgetPage";

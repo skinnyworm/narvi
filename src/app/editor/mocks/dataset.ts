@@ -1,8 +1,7 @@
+import { Value } from "app/types";
 import { createDataSet } from "./createDataSet";
 import * as random from "./random";
 import range from "lodash/range";
-import { SchemaSpec } from ".";
-import { Value } from "../types";
 
 const brand = random.label([
   {
@@ -143,6 +142,7 @@ const city = random.label([
 ]);
 
 export const autoSales = createDataSet(
+  "autoSales",
   "销售数据",
   [
     {
@@ -210,6 +210,7 @@ export const autoSales = createDataSet(
 );
 
 export const example = createDataSet(
+  "example",
   "Example",
   [
     {

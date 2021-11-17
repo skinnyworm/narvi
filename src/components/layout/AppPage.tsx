@@ -5,33 +5,64 @@ import {
   Toolbar,
   Typography,
   Drawer,
-  AppBar,
+  AppBar as MuiAppBar,
+  AppBarProps as MuiAppBarProps,
+  styled,
 } from "@mui/material";
-
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppDrawer, drawerWidth } from "./AppDrawer";
+
+type AppBarProps = MuiAppBarProps & {
+  open?: boolean;
+  rightDrawerWidth: number;
+};
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) =>
+    ["open", "rightDrawerWidth"].indexOf(prop as string) < 0,
+})<AppBarProps>(({ theme, open, rightDrawerWidth }) => ({
+  transition: theme.transitions.create(["margin", "width"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${rightDrawerWidth}px)`,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginRight: rightDrawerWidth,
+  }),
+}));
 
 export type AppPageProps = {
   title?: string;
   actions?: React.ReactNode;
   children: React.ReactNode;
+  rightDrawerWidth?: number;
+  rightDrawerOpen?: boolean;
 };
 
 export function AppPage(props: AppPageProps) {
-  const { title, actions } = props;
+  const {
+    title,
+    actions,
+    children,
+    rightDrawerWidth = 0,
+    rightDrawerOpen = false,
+  } = props;
   const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
   return (
     <Box
       sx={{
         display: "flex",
-        flexDirection: "row",
-        height: "100%",
-        width: "100%",
+        height: "100vh",
+        width: "100vw",
         overflow: "hidden",
         backgroundColor: "background.default",
       }}
     >
-      <AppBar>
+      <AppBar rightDrawerWidth={rightDrawerWidth} open={rightDrawerOpen}>
         <Toolbar>
           <IconButton
             sx={{ mr: 2 }}
@@ -62,22 +93,23 @@ export function AppPage(props: AppPageProps) {
       >
         <AppDrawer />
       </Drawer>
-
-      <Box
-        component="main"
-        sx={{
-          backgroundColor: (theme) =>
-            theme.palette.mode === "light"
-              ? theme.palette.grey[100]
-              : theme.palette.grey[900],
-          flexGrow: 1,
-          height: "100vh",
-          overflow: "auto",
-        }}
-      >
-        <Toolbar />
-        {props.children}
-      </Box>
+      {children}
     </Box>
   );
 }
+
+export const Main = (props: { children: React.ReactNode }) => (
+  <Box
+    component="main"
+    sx={{
+      flexGrow: 1,
+      overflow: "auto",
+      backgroundColor: (theme) =>
+        theme.palette.mode === "light"
+          ? theme.palette.grey[100]
+          : theme.palette.grey[900],
+    }}
+  >
+    {props.children}
+  </Box>
+);

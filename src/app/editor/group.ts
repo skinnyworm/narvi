@@ -1,4 +1,4 @@
-import { DataSource, LabelSpec, OutputSpec, Value } from "./types";
+import { DataSource, LabelSpec, OutputSpec, Value } from "app/types";
 import { AnyExpression, evaluate, parse, reduce } from "./expression";
 
 type LabelState = Record<string, AnyExpression>;

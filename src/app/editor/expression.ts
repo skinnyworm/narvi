@@ -1,5 +1,5 @@
 import jsep, { Identifier } from "jsep";
-import { Value } from "./types";
+import { Value } from "app/types";
 
 const binops: Record<string, (a: any, b: any) => any> = {
   "||": (a: any, b: any) => a || b,

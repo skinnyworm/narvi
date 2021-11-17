@@ -1,4 +1,4 @@
-import { Schema, Value, DataSource } from "../types";
+import { Schema, Value, DataSource } from "app/types";
 import range from "lodash/range";
 
 export type SchemaSpec = Schema & {
@@ -6,11 +6,13 @@ export type SchemaSpec = Schema & {
 };
 
 export function createDataSet(
+  id: string,
   title: string,
   schema: SchemaSpec[],
   rows: number
 ): DataSource {
   return {
+    id,
     meta: {
       title,
       schema: schema.map<Schema>(({ field, type }) => ({ field, type })),

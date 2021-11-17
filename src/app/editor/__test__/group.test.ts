@@ -1,9 +1,10 @@
+import { DataSource, OutputSpec } from "app/types";
 import { group } from "../group";
-import { DataSource, OutputSpec } from "../types";
 import { autoSales } from "../mocks/dataset";
 
 test("it should group", () => {
   const datasource: DataSource = {
+    id: "example",
     data: [
       [12, "Melbourne"],
       [14, "Melbourne"],
