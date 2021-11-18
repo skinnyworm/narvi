@@ -15,7 +15,7 @@ export const fetchAll = (store: Store<RootState>) => {
     id: "example",
     title: "2021车型销量",
     datasource: autoSales.id,
-    label: "车型",
+    label: "$车型",
     output: [
       {
         name: "销量",

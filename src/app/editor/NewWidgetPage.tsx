@@ -1,18 +1,12 @@
-import React from "react";
-import {
-  Container,
-  Typography,
-  IconButton,
-  Toolbar,
-  Breadcrumbs,
-} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import { Widget } from "app/types";
-import { Link } from "components";
-import { AppPage } from "components/layout";
-import { Main } from "./Main";
-import { EditorDrawer, drawerWidth } from "./EditorDrawer";
-import { Viewer } from "./Viewer";
+import React from 'react';
+import { Container, Typography, IconButton, Toolbar, Breadcrumbs } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import { Widget } from 'app/types';
+import { Link } from 'components';
+import { AppPage } from 'components/layout';
+import { Main } from './Main';
+import { EditorDrawer, drawerWidth } from './drawer';
+import { Viewer } from './viewer/Viewer';
 
 export function NewWidgetPage() {
   const [open, setOpen] = React.useState(true);
@@ -30,8 +24,7 @@ export function NewWidgetPage() {
             <EditIcon />
           </IconButton>
         )
-      }
-    >
+      }>
       <Main drawerWidth={drawerWidth} open={open}>
         <Container component="article">
           <Toolbar />
@@ -45,12 +38,7 @@ export function NewWidgetPage() {
           <Viewer widget={widget} />
         </Container>
       </Main>
-      <EditorDrawer
-        widget={widget}
-        onChange={handleWidgetChange}
-        open={open}
-        onClose={() => setOpen(false)}
-      />
+      <EditorDrawer widget={widget} onChange={handleWidgetChange} open={open} onClose={() => setOpen(false)} />
     </AppPage>
   );
 }

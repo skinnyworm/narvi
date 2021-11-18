@@ -1,29 +1,22 @@
-import React from "react";
-import { Navigate, useParams } from "react-router";
-import {
-  Container,
-  Typography,
-  IconButton,
-  Toolbar,
-  Breadcrumbs,
-} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import { useAppSelector } from "app/store";
-import { Link } from "components";
-import { AppPage } from "components/layout";
-import { Main } from "./Main";
-import { EditorDrawer, drawerWidth } from "./EditorDrawer";
+import React from 'react';
+import { Navigate, useParams } from 'react-router';
+import { Container, Typography, IconButton, Toolbar, Breadcrumbs } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import { useAppSelector } from 'app/store';
+import { Link } from 'components';
+import { AppPage } from 'components/layout';
+import { Main } from './Main';
+import { EditorDrawer, drawerWidth } from './drawer/EditorDrawer';
+import { Widget } from 'app/types';
+import { Viewer } from './viewer';
 
 export function WidgetPage() {
   const [open, setOpen] = React.useState(false);
-  const { id } = useParams<"id">();
-  const widget = useAppSelector((state) =>
-    state.dashboard.widgets.find((item) => item.id === id)
-  );
+  const { id } = useParams<'id'>();
+  const initialWidget = useAppSelector((state) => state.dashboard.widgets.find((item) => item.id === id));
+  const [widget, setWidget] = React.useState<Partial<Widget>>(initialWidget || {});
 
-  const handleWidgetChange = () => {};
-
-  if (!widget) {
+  if (!initialWidget) {
     return <Navigate to="/404" replace />;
   }
 
@@ -38,8 +31,7 @@ export function WidgetPage() {
             <EditIcon />
           </IconButton>
         )
-      }
-    >
+      }>
       <Main drawerWidth={drawerWidth} open={open}>
         <Container component="article">
           <Toolbar />
@@ -49,16 +41,10 @@ export function WidgetPage() {
             </Link>
             <Typography color="text.primary">{widget.title}</Typography>
           </Breadcrumbs>
-
-          <Typography variant="h6">Content</Typography>
+          <Viewer widget={widget} />
         </Container>
       </Main>
-      <EditorDrawer
-        widget={widget}
-        onChange={handleWidgetChange}
-        open={open}
-        onClose={() => setOpen(false)}
-      />
+      <EditorDrawer widget={widget} onChange={setWidget} open={open} onClose={() => setOpen(false)} />
     </AppPage>
   );
 }
