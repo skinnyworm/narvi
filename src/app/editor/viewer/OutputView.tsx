@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridRowsProp, zhCN } from '@mui/x-data-grid';
-import type { LabelSpec, OutputSpec } from 'app/types';
+import type { Widget } from 'app/types';
 import { GroupResult } from '../group';
 import { DataGridPaper } from './DatasourceView';
 
@@ -10,22 +10,14 @@ type RowColumn = {
   columns: GridColDef[];
 };
 
-export function OutputView({
-  groupResult,
-  output,
-  label,
-}: {
-  groupResult: GroupResult;
-  output: OutputSpec[];
-  label: LabelSpec;
-}) {
+export function OutputView({ groupResult, widget }: { groupResult: GroupResult; widget: Widget }) {
   const { rows, columns } = React.useMemo<RowColumn>(() => {
     const rows: GridRowsProp = Object.entries(groupResult).map(([label, output], i) => ({
       id: i,
       label: label,
       ...output,
     }));
-    const columns = output.reduce<GridColDef[]>(
+    const columns = widget.output.reduce<GridColDef[]>(
       (columns, outputSpec) => {
         return [
           ...columns,
@@ -35,10 +27,10 @@ export function OutputView({
           },
         ];
       },
-      [{ field: 'label', headerName: label, width: 150 }],
+      [{ field: 'label', headerName: widget.label, width: 150 }],
     );
     return { rows, columns };
-  }, [label, output, groupResult]);
+  }, [widget, groupResult]);
 
   return (
     <Box component="section" my={2}>

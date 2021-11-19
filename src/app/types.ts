@@ -1,6 +1,8 @@
+import { SimpleChartOptions } from 'components/widgets/SimpleChart';
+
 export type Value = number | string;
 
-export type Type = "number" | "string" | "unknow";
+export type Type = 'number' | 'string' | 'unknow';
 
 export type Schema = {
   field: string;
@@ -21,34 +23,10 @@ export type LabelSpec = string;
 export type OutputSpec = {
   name: string;
   expression: string;
-  format?: "currency" | "number" | "percent";
+  format?: 'currency' | 'number' | 'percent';
 };
 
-export type ChartSpec =
-  | LineChartSpec
-  | BarChatSpec
-  | SpiderChartSpec
-  | PieChartSpec;
-
-export type BarChatSpec = {
-  type: "bar-chart";
-  valueFields: string[];
-};
-
-export type LineChartSpec = {
-  type: "line-chart";
-  valueFields: string[];
-};
-
-export type SpiderChartSpec = {
-  type: "spider-chart";
-  valueFields: string[];
-};
-
-export type PieChartSpec = {
-  type: "pie-chart";
-  valueField: string;
-};
+export type ChartSpec = SimpleChartOptions;
 
 export type Widget = {
   id: string;
@@ -56,6 +34,5 @@ export type Widget = {
   datasource: string;
   label: LabelSpec;
   output: OutputSpec[];
-  charts: ChartSpec[];
-  size: "s" | "m" | "l";
+  charts: WidgetSpec[];
 };

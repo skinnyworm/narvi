@@ -20,15 +20,15 @@ export function Viewer(props: ViewerProps) {
   });
 
   const groupResult = React.useMemo(() => {
-    if (datasource && label && output) {
-      return group(datasource, label, output);
+    if (datasource && widget.label && widget.output) {
+      return group(datasource, widget.label, widget.output);
     }
-  }, [datasource, label, output]);
+  }, [datasource, widget]);
 
   return (
     <article>
       {datasource && <DatasourceView datasource={datasource} />}
-      {groupResult && <OutputView groupResult={groupResult} output={output!} label={label!} />}
+      {groupResult && <OutputView widget={widget as Widget} groupResult={groupResult} />}
     </article>
   );
 }
