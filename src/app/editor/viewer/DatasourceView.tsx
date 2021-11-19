@@ -1,8 +1,17 @@
 import React from 'react';
-import { Table, Typography } from '@mui/material';
+import { Paper, Box, Typography, styled } from '@mui/material';
+import { DataGrid, GridColDef, GridRowsProp, zhCN } from '@mui/x-data-grid';
 import { DataSource } from 'app/types';
-import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
-import { Box } from '@mui/system';
+
+export const DataGridPaper = styled(Paper)(({ theme }) => {
+  return {
+    display: 'flex',
+    height: 300,
+    '& .MuiDataGrid-footerContainer': {
+      backgroundColor: '#f0f0f0',
+    },
+  };
+});
 
 export function DatasourceView({ datasource }: { datasource: DataSource }) {
   const {
@@ -11,7 +20,7 @@ export function DatasourceView({ datasource }: { datasource: DataSource }) {
   } = datasource;
 
   const { rows, columns } = React.useMemo(() => {
-    const rows: GridRowsProp = datasource.data.map<Record<string, any>>((row, i) => {
+    const rows: GridRowsProp = data.map<Record<string, any>>((row, i) => {
       return row.reduce((item, value, i) => ({ ...item, [schema[i].field]: value }), { id: String(i) });
     });
 
@@ -23,11 +32,13 @@ export function DatasourceView({ datasource }: { datasource: DataSource }) {
   }, [data, schema]);
 
   return (
-    <section>
-      <Typography variant="h6">数据集</Typography>
-      <Box height={500} display="flex">
-        <DataGrid rows={rows} columns={columns} />
-      </Box>
-    </section>
+    <Box component="section" my={2}>
+      <Typography variant="h6" gutterBottom>
+        数据集
+      </Typography>
+      <DataGridPaper>
+        <DataGrid rows={rows} columns={columns} localeText={zhCN.components.MuiDataGrid.defaultProps.localeText} />
+      </DataGridPaper>
+    </Box>
   );
 }

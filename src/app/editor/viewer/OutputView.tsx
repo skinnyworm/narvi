@@ -1,8 +1,9 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import { DataGrid, GridColDef, GridRowsProp, zhCN } from '@mui/x-data-grid';
+import type { LabelSpec, OutputSpec } from 'app/types';
 import { GroupResult } from '../group';
-import { DataGrid, GridColDef, GridRowsProp } from '@mui/x-data-grid';
-import { LabelSpec, OutputSpec } from 'app/types';
+import { DataGridPaper } from './DatasourceView';
 
 type RowColumn = {
   rows: GridRowsProp;
@@ -30,22 +31,23 @@ export function OutputView({
           ...columns,
           {
             field: outputSpec.name,
+            width: 150,
           },
         ];
       },
-      [{ field: 'label', headerName: '标签' }],
+      [{ field: 'label', headerName: label, width: 150 }],
     );
     return { rows, columns };
-  }, [groupResult]);
-
-  console.log(rows);
+  }, [label, output, groupResult]);
 
   return (
-    <section>
-      <Typography variant="h6">输出结果</Typography>
-      <Box height={500} display="flex">
-        <DataGrid rows={rows} columns={columns} />
-      </Box>
-    </section>
+    <Box component="section" my={2}>
+      <Typography variant="h6" gutterBottom>
+        输出结果
+      </Typography>
+      <DataGridPaper>
+        <DataGrid rows={rows} columns={columns} localeText={zhCN.components.MuiDataGrid.defaultProps.localeText} />
+      </DataGridPaper>
+    </Box>
   );
 }

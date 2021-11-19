@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   IconButton,
@@ -8,9 +8,9 @@ import {
   AppBar as MuiAppBar,
   AppBarProps as MuiAppBarProps,
   styled,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import { AppDrawer, drawerWidth } from "./AppDrawer";
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { AppDrawer, drawerWidth } from './AppDrawer';
 
 type AppBarProps = MuiAppBarProps & {
   open?: boolean;
@@ -18,21 +18,28 @@ type AppBarProps = MuiAppBarProps & {
 };
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) =>
-    ["open", "rightDrawerWidth"].indexOf(prop as string) < 0,
+  shouldForwardProp: (prop) => ['open', 'rightDrawerWidth'].indexOf(prop as string) < 0,
 })<AppBarProps>(({ theme, open, rightDrawerWidth }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
+  transition: theme.transitions.create(['margin', 'width'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     width: `calc(100% - ${rightDrawerWidth}px)`,
-    transition: theme.transitions.create(["margin", "width"], {
+    transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginRight: rightDrawerWidth,
   }),
+}));
+
+const Root = styled('div')(({ theme }) => ({
+  display: 'flex',
+  height: '100vh',
+  width: '100vw',
+  overflow: 'hidden',
+  backgroundColor: theme.palette.grey[50],
 }));
 
 export type AppPageProps = {
@@ -44,32 +51,13 @@ export type AppPageProps = {
 };
 
 export function AppPage(props: AppPageProps) {
-  const {
-    title,
-    actions,
-    children,
-    rightDrawerWidth = 0,
-    rightDrawerOpen = false,
-  } = props;
+  const { title, actions, children, rightDrawerWidth = 0, rightDrawerOpen = false } = props;
   const [drawerOpen, setDrawerOpen] = React.useState<boolean>(false);
   return (
-    <Box
-      sx={{
-        display: "flex",
-        height: "100vh",
-        width: "100vw",
-        overflow: "hidden",
-        backgroundColor: "background.default",
-      }}
-    >
+    <Root>
       <AppBar rightDrawerWidth={rightDrawerWidth} open={rightDrawerOpen}>
         <Toolbar>
-          <IconButton
-            sx={{ mr: 2 }}
-            color="inherit"
-            edge="start"
-            onClick={() => setDrawerOpen(true)}
-          >
+          <IconButton sx={{ mr: 2 }} color="inherit" edge="start" onClick={() => setDrawerOpen(true)}>
             <MenuIcon />
           </IconButton>
           <Typography sx={{ flexGrow: 1 }} variant="h6" noWrap>
@@ -81,7 +69,7 @@ export function AppPage(props: AppPageProps) {
 
       <Drawer
         sx={{
-          "& .MuiDrawer-paper": {
+          '& .MuiDrawer-paper': {
             width: drawerWidth,
           },
         }}
@@ -89,12 +77,11 @@ export function AppPage(props: AppPageProps) {
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         anchor="left"
-        ModalProps={{ keepMounted: true }}
-      >
+        ModalProps={{ keepMounted: true }}>
         <AppDrawer />
       </Drawer>
       {children}
-    </Box>
+    </Root>
   );
 }
 
@@ -103,13 +90,9 @@ export const Main = (props: { children: React.ReactNode }) => (
     component="main"
     sx={{
       flexGrow: 1,
-      overflow: "auto",
-      backgroundColor: (theme) =>
-        theme.palette.mode === "light"
-          ? theme.palette.grey[100]
-          : theme.palette.grey[900],
-    }}
-  >
+      overflow: 'auto',
+      backgroundColor: (theme) => (theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[900]),
+    }}>
     {props.children}
   </Box>
 );

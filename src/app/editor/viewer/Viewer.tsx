@@ -1,5 +1,4 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
 import { Widget } from 'app/types';
 import { useAppSelector } from 'app/store';
 import { DatasourceView } from './DatasourceView';
@@ -12,7 +11,7 @@ export type ViewerProps = {
 
 export function Viewer(props: ViewerProps) {
   const { widget } = props;
-  const { title, datasource: datasourceId, label, output } = widget;
+  const { datasource: datasourceId, label, output } = widget;
 
   const datasource = useAppSelector((state) => {
     if (datasourceId) {

@@ -21,6 +21,7 @@
     "@types/react-dom": "^17.0.0",
     "@types/react-redux": "^7.1.7",
     "draft-js": "^0.11.7",
+    "echarts": "^5.2.2",
     "immutability-helper": "^3.1.1",
     "jsep": "^1.2.0",
     "lodash": "^4.17.21",

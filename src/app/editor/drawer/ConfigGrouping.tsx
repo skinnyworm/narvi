@@ -61,7 +61,7 @@ export const ConfigGrouping = ({ value, onChange }: ConfigGroupingProps) => {
 
   const handleSubmitOutput = (outputSpec: OutputSpec, index?: number) => {
     setEditingOutput(null);
-    if (index == undefined) {
+    if (index === undefined) {
       const next = value.output ? value : { ...value, output: [] };
       onChange(update(next, { output: { $push: [outputSpec] } }));
     } else {

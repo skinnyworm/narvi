@@ -3,7 +3,6 @@ import { Editor, EditorState, ContentState } from 'draft-js';
 import { FormControl, FormHelperText, styled, InputLabel, InputLabelProps, FormControlProps } from '@mui/material';
 import NotchedOutline from '@mui/material/OutlinedInput/NotchedOutline';
 import clsx from 'clsx';
-import { OutputFileType } from 'typescript';
 
 const InputRoot = styled('div')(({ theme }) => {
   const borderColor = theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)';
