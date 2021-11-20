@@ -4,7 +4,7 @@ import { ExpressionField, ExpressionFieldProps } from './ExpressionField';
 import { Container } from '@mui/material';
 
 export default {
-  title: 'component/ExpressionField',
+  title: 'components/ExpressionField',
   component: ExpressionField,
 } as Meta;
 

@@ -1,15 +1,18 @@
 import React from 'react';
 import { init, getInstanceByDom } from 'echarts';
+import 'echarts/extension/bmap/bmap';
 import type { CSSProperties } from 'react';
 import type { EChartsOption, ECharts, SetOptionOpts } from 'echarts';
 
 export interface ReactEChartsProps {
-  option: EChartsOption;
+  option: ChartOptions;
   style?: CSSProperties;
   settings?: SetOptionOpts;
   loading?: boolean;
   theme?: 'light' | 'dark';
 }
+
+export type ChartOptions = EChartsOption & { bmap?: any };
 
 export function ReactECharts({ option, style, settings, loading, theme }: ReactEChartsProps): JSX.Element {
   const chartRef = React.useRef<HTMLDivElement>(null);
