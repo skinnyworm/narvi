@@ -16,8 +16,8 @@ export function EditorSteps(props: EditorStepsProps) {
   const datasources = useAppSelector((state) => state.datasource.allDatasources);
 
   const handleChangeDs = (datasource: string) => {
-    const { id, size, title } = widget;
-    onChange({ id, size, title, datasource });
+    const { id, title } = widget;
+    onChange({ id, title, datasource });
   };
 
   return (
