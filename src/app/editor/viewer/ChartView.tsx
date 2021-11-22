@@ -1,11 +1,8 @@
 import React from 'react';
 import { Box, Grid, Typography } from '@mui/material';
-
 import { ChartSpec } from 'app/types';
+import { ChartCard } from 'components/charts';
 import { GroupResult } from '../group';
-import { RadarChart } from 'components/charts/RadarChart';
-import { BmapChart } from 'components/charts/BmapChart';
-import { SimpleChart } from 'components/charts';
 
 export type ChartViewProps = {
   charts: ChartSpec[];
@@ -21,45 +18,9 @@ export function ChartView(props: ChartViewProps) {
         图表组件
       </Typography>
       <Grid container spacing={2}>
-        {charts.map((spec, i) => {
-          console.log(spec);
-          switch (spec.type) {
-            case 'radar':
-              return (
-                <RadarChart
-                  key={i}
-                  groupResult={groupResult}
-                  title={spec.title}
-                  size={spec.size}
-                  category={spec.category}
-                  series={spec.series}
-                />
-              );
-
-            case 'bmap':
-              return (
-                <BmapChart
-                  key={i}
-                  groupResult={groupResult}
-                  title={spec.title}
-                  category={spec.category}
-                  series={spec.series}
-                />
-              );
-
-            default:
-              return (
-                <SimpleChart
-                  key={i}
-                  groupResult={groupResult}
-                  title={spec.title}
-                  size={spec.size}
-                  category={spec.category}
-                  series={spec.series}
-                />
-              );
-          }
-        })}
+        {charts.map((spec, i) => (
+          <ChartCard key={i} spec={spec} groupResult={groupResult} />
+        ))}
       </Grid>
     </Box>
   );

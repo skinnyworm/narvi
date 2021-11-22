@@ -25,17 +25,19 @@ export type ChartPaperProps = {
   title?: string;
   size?: WidgetSize;
   children: React.ReactNode;
+  actions?: React.ReactNode;
 };
 
-export function ChartPaper({ title, size = 'small', children }: ChartPaperProps) {
+export function ChartPaper({ title, size = 'small', children, actions }: ChartPaperProps) {
   const gridProps = grids[size];
-  console.log(gridProps);
+
   return (
     <Grid item {...gridProps}>
       <Paper>
         {title && (
-          <Box p={2}>
+          <Box p={2} display="flex" justifyContent="space-between" alignItems="center">
             <Typography>{title}</Typography>
+            {actions}
           </Box>
         )}
         {children}

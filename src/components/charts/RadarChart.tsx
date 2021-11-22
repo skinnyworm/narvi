@@ -15,65 +15,54 @@ export type RadarChartProps = Omit<ChartPaperProps, 'children'> & {
 
 export function RadarChart(props: RadarChartProps) {
   const { showLegend = true, category, series: seriesData, groupResult, ...paperProps } = props;
-  // const chartOptions = React.useMemo<Partial<EChartsOption>>(() => {
-  //   // const { names, series } = seriesData.reduce<{ names: string[]; series: Array<{ type: ChartType }> }>(
-  //   //   (options, item) => {
-  //   //     return {
-  //   //       names: [...options.names, item.name],
-  //   //       series: [...options.series, { type: item.type }],
-  //   //     };
-  //   //   },
-  //   //   {
-  //   //     names: [],
-  //   //     series: [],
-  //   //   },
-  //   // );
-  //   const dataset = {
-  //     dimensions: [category, ...seriesData],
-  //     source: Object.entries(groupResult).map(([label, data]) => {
-  //       return { [category]: label, ...data };
-  //     }),
-  //   };
-  //   return { dataset };
-  // }, [category, seriesData, groupResult]);
+
+  const chartOptions = React.useMemo<Partial<EChartsOption>>(() => {
+    const indicator = seriesData.map<{ text: string; max: number }>((item) => {
+      const max = Object.entries(groupResult).reduce(
+        (max, [label, data]) => Math.max(max, data[item.name]),
+        Number.MIN_SAFE_INTEGER,
+      );
+      return {
+        text: item.name,
+        max: max,
+      };
+    });
+
+    const data = Object.keys(groupResult).map((label) => {
+      const value = seriesData.map<{ name: string; value: number[] }>(({ name }) => groupResult[label][name]);
+      return {
+        value,
+        name: label,
+      };
+    });
+
+    return {
+      series: [
+        {
+          name: category,
+          type: 'radar',
+          data,
+        },
+      ],
+      radar: {
+        indicator,
+        center: ['50%', '60%'],
+        radius: 105,
+        axisName: {
+          color: '#fff',
+          backgroundColor: '#666',
+          borderRadius: 3,
+          padding: [3, 5],
+        },
+      },
+    } as Partial<EChartsOption>;
+  }, [category, seriesData, groupResult]);
 
   const option: EChartsOption = {
     legend: {
       show: showLegend,
     },
-    radar: {
-      indicator: [
-        { text: '完成率', max: 1 },
-        { text: '转化率', max: 1 },
-        { text: '跟进率', max: 1 },
-        { text: '销售完成率', max: 1 },
-        { text: '指标转换率', max: 1 },
-      ],
-      center: ['50%', '60%'],
-      radius: 105,
-      axisName: {
-        color: '#fff',
-        backgroundColor: '#666',
-        borderRadius: 3,
-        padding: [3, 5],
-      },
-    },
-    series: [
-      {
-        name: '个人表现',
-        type: 'radar',
-        data: [
-          {
-            value: [0.5, 0.8, 0.6, 0.4, 0.9],
-            name: '章三',
-          },
-          {
-            value: [0.6, 0.4, 0.7, 0.8, 0.9],
-            name: '李四',
-          },
-        ],
-      },
-    ],
+    ...chartOptions,
   };
 
   return (

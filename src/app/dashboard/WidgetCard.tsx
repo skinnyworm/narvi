@@ -1,44 +1,60 @@
-import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardActionArea,
-  CardMedia,
-  Skeleton,
-} from "@mui/material";
-import { Widget } from "app/types";
+import React from 'react';
+import { Widget } from 'app/types';
+import { useAppSelector } from 'app/store';
+import { group } from 'app/editor/group';
+import { ChartCard } from 'components/charts';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { IconButton, Menu, MenuItem } from '@mui/material';
+import { useNavigate } from 'react-router';
 
 export type WidgetCardProps = {
   widget: Widget;
-  onClick: () => void;
 };
 
 export const WidgetCard = (props: WidgetCardProps) => {
-  const { widget, onClick } = props;
+  const { widget } = props;
+  const [menuAnchor, setMenuAnchor] = React.useState<HTMLElement | null>(null);
+  const navigate = useNavigate();
+  const datasource = useAppSelector((state) => {
+    if (widget.datasource) {
+      return state.datasource.allDatasources.find((ds) => ds.id === widget.datasource);
+    }
+  });
+
+  const groupResult = React.useMemo(() => {
+    if (datasource && widget.label && widget.output) {
+      return group(datasource, widget.label, widget.output);
+    }
+  }, [datasource, widget]);
+
+  const handleEdit = () => {
+    setMenuAnchor(null);
+    navigate(`/dashboard/${widget.id}`);
+  };
+
+  if (!groupResult) {
+    return null;
+  }
+
   return (
-    <Card elevation={0}>
-      <CardHeader
-        sx={{
-          ".MuiCardHeader-title": {
-            typography: "subtitle1",
-          },
-          ".MuiCardHeader-subheader": {
-            typography: "body2",
-            color: "text.disabled",
-          },
-        }}
-        title={widget.title}
-        subheader="2021年11月"
-      />
-      <CardActionArea onClick={onClick}>
-        <CardMedia>
-          <Skeleton
-            sx={{ height: 190 }}
-            animation="wave"
-            variant="rectangular"
-          />
-        </CardMedia>
-      </CardActionArea>
-    </Card>
+    <>
+      {(widget.charts || []).map((spec, i) => (
+        <ChartCard
+          key={i}
+          spec={spec}
+          groupResult={groupResult}
+          actions={
+            <>
+              <IconButton onClick={(e) => setMenuAnchor(e.currentTarget)}>
+                <MoreVertIcon />
+              </IconButton>
+              <Menu open={Boolean(menuAnchor)} onClose={() => setMenuAnchor(null)} anchorEl={menuAnchor}>
+                <MenuItem onClick={() => handleEdit()}>Edit</MenuItem>
+              </Menu>
+            </>
+          }
+        />
+      ))}
+    </>
   );
 };

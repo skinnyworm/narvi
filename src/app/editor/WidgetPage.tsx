@@ -11,7 +11,7 @@ import { Widget } from 'app/types';
 import { Viewer } from './viewer';
 
 export function WidgetPage() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const { id } = useParams<'id'>();
   const initialWidget = useAppSelector((state) => state.dashboard.widgets.find((item) => item.id === id));
   const [widget, setWidget] = React.useState<Partial<Widget>>(initialWidget || {});

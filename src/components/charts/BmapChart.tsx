@@ -89,8 +89,8 @@ export function BmapChart(props: BmapChartProps) {
     },
 
     bmap: {
-      center: [104.114129, 37.550339],
-      zoom: 5,
+      center: [121.48, 20.22],
+      zoom: 4,
       roam: true,
       mapStyle: {
         styleJson: [
