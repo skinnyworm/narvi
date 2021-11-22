@@ -20,9 +20,10 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Clear';
-import { OutputSpec, Widget } from 'app/types';
-import { ExpressionField } from 'components';
+import { OutputSpec, Schema, Widget } from 'app/types';
+import { ExpressionField } from 'components/expression';
 import update from 'immutability-helper';
+import { useAppSelector } from 'app/store';
 
 type EditingOutput = {
   index?: number;
@@ -38,6 +39,19 @@ export const ConfigGrouping = ({ value, onChange }: ConfigGroupingProps) => {
   const { label = '', output = [] } = value;
   const outputEditorRef = React.useRef<HTMLElement>(null);
   const [editingOutput, setEditingOutput] = React.useState<EditingOutput | null>(null);
+  const datasource = useAppSelector((state) => {
+    if (value.datasource) {
+      return state.datasource.allDatasources.find((ds) => ds.id === value.datasource);
+    }
+  });
+
+  const schema = React.useMemo(() => {
+    return datasource?.meta.schema || [];
+  }, [datasource]);
+
+  const groupFields = React.useMemo(() => {
+    return schema.filter((s) => s.type === 'string').map((s) => s.field);
+  }, [schema]);
 
   const handleNewOutput = () => {
     setEditingOutput({
@@ -80,6 +94,7 @@ export const ConfigGrouping = ({ value, onChange }: ConfigGroupingProps) => {
         value={label || ''}
         onChange={handleLabelChange}
         margin="normal"
+        fields={groupFields}
         fullWidth
         required
       />
@@ -141,7 +156,12 @@ export const ConfigGrouping = ({ value, onChange }: ConfigGroupingProps) => {
         <Slide direction="up" in={editingOutput !== null} container={outputEditorRef.current}>
           <Paper sx={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, zIndex: 10, p: 2 }}>
             {editingOutput && (
-              <EditingForm value={editingOutput} onSubmit={handleSubmitOutput} onClose={() => setEditingOutput(null)} />
+              <EditingForm
+                value={editingOutput}
+                schema={schema}
+                onSubmit={handleSubmitOutput}
+                onClose={() => setEditingOutput(null)}
+              />
             )}
           </Paper>
         </Slide>
@@ -151,10 +171,12 @@ export const ConfigGrouping = ({ value, onChange }: ConfigGroupingProps) => {
 };
 
 const EditingForm = ({
+  schema,
   value,
   onSubmit,
   onClose,
 }: {
+  schema: Schema[];
   value: EditingOutput;
   onSubmit: (output: OutputSpec, index?: number) => void;
   onClose: () => void;
@@ -162,6 +184,10 @@ const EditingForm = ({
   const { index } = value;
   const editing = index !== undefined;
   const [output, setOutput] = React.useState(value.output);
+
+  const fields = React.useMemo(() => {
+    return schema.filter((s) => s.type === 'number').map((s) => s.field);
+  }, [schema]);
 
   const updateField = (field: string, value: string) => {
     setOutput({ ...output, [field]: value });
@@ -189,6 +215,7 @@ const EditingForm = ({
       <ExpressionField
         label="表达式"
         value={output.expression}
+        fields={fields}
         onChange={(value) => updateField('expression', value)}
         margin="normal"
         fullWidth

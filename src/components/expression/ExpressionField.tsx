@@ -1,8 +1,10 @@
 import React from 'react';
-import { Editor, EditorState, ContentState } from 'draft-js';
+import Editor from '@draft-js-plugins/editor';
 import { FormControl, FormHelperText, styled, InputLabel, InputLabelProps, FormControlProps } from '@mui/material';
 import NotchedOutline from '@mui/material/OutlinedInput/NotchedOutline';
 import clsx from 'clsx';
+
+import { ExpressionEditor } from './ExpressionEditor';
 
 const InputRoot = styled('div')(({ theme }) => {
   const borderColor = theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)';
@@ -51,6 +53,7 @@ const InputRoot = styled('div')(({ theme }) => {
 
 export type ExpressionFieldProps = Pick<InputLabelProps, 'disabled' | 'error'> &
   Pick<FormControlProps, 'fullWidth' | 'margin' | 'required'> & {
+    fields: string[];
     label?: string;
     helperText?: string;
     value: string;
@@ -58,19 +61,11 @@ export type ExpressionFieldProps = Pick<InputLabelProps, 'disabled' | 'error'> &
   };
 
 export function ExpressionField(props: ExpressionFieldProps) {
-  const { label, helperText, value, onChange, fullWidth, margin, disabled, error, required } = props;
-  const editor = React.useRef<any>(null);
+  const { label, helperText, value, onChange, fullWidth, margin, disabled, error, required, fields = [] } = props;
+
+  const editor = React.useRef<Editor>(null);
+
   const [focused, setFocused] = React.useState(false);
-
-  const [editorState, setEditorState] = React.useState<EditorState>(() => {
-    const content = ContentState.createFromText(value);
-    return EditorState.createWithContent(content);
-  });
-
-  const handleChange = (state: EditorState) => {
-    setEditorState(state);
-    onChange(state.getCurrentContent().getPlainText());
-  };
 
   return (
     <FormControl fullWidth={fullWidth} margin={margin} required={required}>
@@ -79,13 +74,14 @@ export function ExpressionField(props: ExpressionFieldProps) {
           {label}
         </InputLabel>
       )}
-      <InputRoot onClick={() => editor.current.focus()} className={clsx({ focused, disabled, error })}>
-        <Editor
+      <InputRoot onClick={() => editor.current?.focus()} className={clsx({ focused, disabled, error })}>
+        <ExpressionEditor
+          ref={editor}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          editorState={editorState}
-          onChange={handleChange}
-          ref={editor}
+          value={value}
+          onChange={onChange}
+          fields={fields}
         />
         <NotchedOutline
           className="notchedOutline"

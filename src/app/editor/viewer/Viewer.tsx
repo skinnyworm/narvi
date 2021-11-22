@@ -21,8 +21,11 @@ export function Viewer(props: ViewerProps) {
   });
 
   const groupResult = React.useMemo(() => {
-    if (datasource && widget.label && widget.output) {
-      return group(datasource, widget.label, widget.output);
+    if (datasource) {
+      if (widget.label && datasource.meta.schema.findIndex((s) => `$${s.field}` === widget.label!.trim()) >= 0)
+        if (widget.output && widget.output.length > 0) {
+          return group(datasource, widget.label, widget.output);
+        }
     }
   }, [datasource, widget]);
 

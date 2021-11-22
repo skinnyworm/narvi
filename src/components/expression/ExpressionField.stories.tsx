@@ -17,6 +17,7 @@ const Template: Story<ExpressionFieldProps> = (args) => (
 export const Example = Template.bind({});
 Example.args = {
   label: 'Expression',
-  value: 'sum($age)',
+  value: 'sum($销售数量)',
   fullWidth: true,
+  fields: ['销售数量', '订单数量'],
 };

@@ -60,7 +60,6 @@ const createRadarChart = (output: OutputSpec[]): ChartSpec => {
     size: 'medium',
     showLegend: false,
     category: 'label',
-
     series: output.map((item) => ({
       name: item.name,
     })),
@@ -131,7 +130,7 @@ export function ConfigChart(props: ConfigChartProps) {
         boxSizing: 'border-box',
         borderColor: 'text.disabled',
         overflow: 'hidden',
-        height: 400,
+        height: 520,
       }}>
       <Box height="100%" overflow="auto">
         <List
@@ -179,7 +178,8 @@ export function ConfigChart(props: ConfigChartProps) {
       </Box>
 
       <Slide direction="up" in={editingIndex !== null} container={rootRef.current}>
-        <Paper sx={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, zIndex: 10, p: 2 }}>
+        <Paper
+          sx={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, zIndex: 10, p: 2, overflow: 'hidden' }}>
           {editing && (
             <ChartForm
               value={editing}
@@ -215,14 +215,14 @@ const ChartForm = ({
   };
 
   return (
-    <Box>
-      <Box display="flex" justifyContent="space-between">
+    <Stack>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography>{chartTypes[chartSpec.type]}</Typography>
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
       </Box>
-      <Stack>
+      <Stack flex={1} overflow="hidden">
         <TextField
           label="Title"
           value={chartSpec.title}
@@ -265,6 +265,6 @@ const ChartForm = ({
           })}
         </List>
       </Stack>
-    </Box>
+    </Stack>
   );
 };

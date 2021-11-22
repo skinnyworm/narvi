@@ -24,7 +24,7 @@ export function DashboardPage() {
         <Container component="article">
           <Grid sx={{ mt: 2 }} container spacing={2}>
             {widgets.map((widget) => (
-              <WidgetCard widget={widget} />
+              <WidgetCard key={widget.id} widget={widget} />
             ))}
           </Grid>
         </Container>

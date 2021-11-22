@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@draft-js-plugins/editor": "^4.1.0",
+    "@draft-js-plugins/mention": "^5.0.0",
     "@emotion/react": "^11.4.1",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.3.0",

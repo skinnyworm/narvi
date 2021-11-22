@@ -1,6 +1,6 @@
 import { Store, createAction } from '@reduxjs/toolkit';
 import { DataSource, Widget } from 'app/types';
-import { autoSales, example } from 'app/helpers/dataset';
+import { autoSales, staffKpi, example } from 'app/helpers/dataset';
 import { RootState } from './store';
 import { UserInfo } from './authSlice';
 
@@ -88,7 +88,7 @@ export const fetchAll = (store: Store<RootState>) => {
 
   store.dispatch(
     fetched({
-      datasources: [autoSales, example],
+      datasources: [autoSales, staffKpi, example],
       widgets: [salesByModel, salesByCity],
       userInfo: {
         displayName: '章叁',
