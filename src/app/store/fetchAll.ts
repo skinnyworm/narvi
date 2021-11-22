@@ -1,7 +1,7 @@
 import { Store, createAction } from '@reduxjs/toolkit';
 import { DataSource, Widget } from 'app/types';
+import { autoSales, example } from 'app/helpers/dataset';
 import { RootState } from './store';
-import { autoSales, example } from 'app/editor/mocks/dataset';
 import { UserInfo } from './authSlice';
 
 export const fetched = createAction<{
@@ -24,8 +24,11 @@ export const fetchAll = (store: Store<RootState>) => {
     ],
     charts: [
       {
-        type: 'bar-chart',
-        valueFields: ['销量'],
+        type: 'simple',
+        title: '销量图表',
+        size: 'medium',
+        category: '车型',
+        series: [{ name: '销量', type: 'bar' }],
       },
     ],
   };

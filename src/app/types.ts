@@ -1,4 +1,6 @@
-import { SimpleChartOptions } from 'components/widgets/SimpleChart';
+import { BmapChartOptions } from 'components/charts/BmapChart';
+import { RadarChartOptions } from 'components/charts/RadarChart';
+import { SimpleChartOptions } from 'components/charts/SimpleChart';
 
 export type Value = number | string;
 
@@ -26,7 +28,10 @@ export type OutputSpec = {
   format?: 'currency' | 'number' | 'percent';
 };
 
-export type ChartSpec = SimpleChartOptions;
+export type ChartSpec =
+  | (SimpleChartOptions & { type: 'simple' })
+  | (RadarChartOptions & { type: 'radar' })
+  | (BmapChartOptions & { type: 'bmap' });
 
 export type Widget = {
   id: string;
@@ -34,5 +39,5 @@ export type Widget = {
   datasource: string;
   label: LabelSpec;
   output: OutputSpec[];
-  charts: WidgetSpec[];
+  charts: ChartSpec[];
 };

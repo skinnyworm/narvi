@@ -7,6 +7,7 @@ import { RootState } from 'app/store';
 import { initialState } from './mocks';
 import { ThemeProvider } from '@mui/material';
 import theme from '../theme';
+import { MemoryRouter } from 'react-router';
 
 const mockStore = configureStore([]);
 
@@ -25,7 +26,9 @@ export const AppProvider = (props: AppProviderProps) => {
   return (
     <LocationProvider history={history}>
       <ThemeProvider theme={theme}>
-        <Provider store={store}>{children}</Provider>
+        <MemoryRouter initialEntries={[path]}>
+          <Provider store={store}>{children}</Provider>
+        </MemoryRouter>
       </ThemeProvider>
     </LocationProvider>
   );

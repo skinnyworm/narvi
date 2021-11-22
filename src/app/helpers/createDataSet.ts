@@ -1,16 +1,11 @@
-import { Schema, Value, DataSource } from "app/types";
-import range from "lodash/range";
+import { Schema, Value, DataSource } from 'app/types';
+import range from 'lodash/range';
 
 export type SchemaSpec = Schema & {
   value: (prev: Value[]) => Value;
 };
 
-export function createDataSet(
-  id: string,
-  title: string,
-  schema: SchemaSpec[],
-  rows: number
-): DataSource {
+export function createDataSet(id: string, title: string, schema: SchemaSpec[], rows: number): DataSource {
   return {
     id,
     meta: {
@@ -26,7 +21,7 @@ export function createDataSet(
 }
 
 export function toCsv(ds: DataSource) {
-  const header = ds.meta.schema.map((item) => item.field).join(",");
-  const rows = ds.data.map((row) => row.join(","));
-  return [header, ...rows].join("\n");
+  const header = ds.meta.schema.map((item) => item.field).join(',');
+  const rows = ds.data.map((row) => row.join(','));
+  return [header, ...rows].join('\n');
 }

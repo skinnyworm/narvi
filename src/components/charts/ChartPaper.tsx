@@ -29,6 +29,7 @@ export type ChartPaperProps = {
 
 export function ChartPaper({ title, size = 'small', children }: ChartPaperProps) {
   const gridProps = grids[size];
+  console.log(gridProps);
   return (
     <Grid item {...gridProps}>
       <Paper>

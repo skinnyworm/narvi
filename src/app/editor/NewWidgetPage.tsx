@@ -10,7 +10,9 @@ import { Viewer } from './viewer/Viewer';
 
 export function NewWidgetPage() {
   const [open, setOpen] = React.useState(true);
-  const [widget, setWidget] = React.useState<Partial<Widget>>({});
+  const [widget, setWidget] = React.useState<Partial<Widget>>({
+    charts: [],
+  });
   const handleWidgetChange = (widget: Partial<Widget>) => setWidget(widget);
 
   return (

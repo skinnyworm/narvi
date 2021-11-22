@@ -3,6 +3,7 @@ import { init, getInstanceByDom } from 'echarts';
 import 'echarts/extension/bmap/bmap';
 import type { CSSProperties } from 'react';
 import type { EChartsOption, ECharts, SetOptionOpts } from 'echarts';
+import { WidgetSize } from './ChartPaper';
 
 export interface ReactEChartsProps {
   option: ChartOptions;
@@ -10,11 +11,12 @@ export interface ReactEChartsProps {
   settings?: SetOptionOpts;
   loading?: boolean;
   theme?: 'light' | 'dark';
+  size?: WidgetSize;
 }
 
 export type ChartOptions = EChartsOption & { bmap?: any };
 
-export function ReactECharts({ option, style, settings, loading, theme }: ReactEChartsProps): JSX.Element {
+export function ReactECharts({ option, style, settings, loading, theme, size }: ReactEChartsProps): JSX.Element {
   const chartRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -36,7 +38,7 @@ export function ReactECharts({ option, style, settings, loading, theme }: ReactE
       chart?.dispose();
       window.removeEventListener('resize', resizeChart);
     };
-  }, [theme]);
+  }, [theme, size]);
 
   React.useEffect(() => {
     // Update chart

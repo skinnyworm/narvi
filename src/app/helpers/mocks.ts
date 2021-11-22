@@ -1,5 +1,5 @@
 import { RootState } from 'app/store';
-import { autoSales, example } from 'app/editor/mocks/dataset';
+import { autoSales, example } from './dataset';
 
 export const initialState: RootState = {
   datasource: {

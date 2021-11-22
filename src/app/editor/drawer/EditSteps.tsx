@@ -4,6 +4,7 @@ import { useAppSelector } from 'app/store';
 import { Widget } from 'app/types';
 import { SelectDatasource } from './SelectDatasource';
 import { ConfigGrouping } from './ConfigGrouping';
+import { ConfigChart } from './ConfigChart';
 
 export type EditorStepsProps = {
   widget: Partial<Widget>;
@@ -44,6 +45,7 @@ export function EditorSteps(props: EditorStepsProps) {
       <Step>
         <StepLabel>Dashboard组件</StepLabel>
         <StepContent>
+          <ConfigChart value={widget} onChange={onChange} />
           <Box>
             <Button onClick={() => setActiveStep(1)}>返回</Button>
             <Button onClick={() => setActiveStep(2)}>确定</Button>

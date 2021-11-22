@@ -6,10 +6,10 @@ import { ChartPaper, ChartPaperProps } from './ChartPaper';
 
 export type RadarChartOptions = Omit<RadarChartProps, 'groupResult'>;
 
-export type RadarChartProps = Omit<ChartPaperProps, 'chidren'> & {
+export type RadarChartProps = Omit<ChartPaperProps, 'children'> & {
   showLegend?: boolean;
   category: string; // '品牌'
-  series: string[];
+  series: Array<{ name: string }>; // [{name:销量}],
   groupResult: GroupResult; // [{"大众": {销量: 39}}]
 };
 
@@ -78,7 +78,7 @@ export function RadarChart(props: RadarChartProps) {
 
   return (
     <ChartPaper {...paperProps}>
-      <ReactECharts option={option} style={{ height: 300 }} />
+      <ReactECharts option={option} style={{ height: 300 }} size={props.size} />
     </ChartPaper>
   );
 }

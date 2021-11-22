@@ -8,10 +8,10 @@ type ChartType = 'line' | 'bar' | 'scatter';
 
 export type SimpleChartOptions = Omit<SimpleChartProps, 'groupResult'>;
 
-export type SimpleChartProps = Omit<ChartPaperProps, 'chidren'> & {
+export type SimpleChartProps = Omit<ChartPaperProps, 'children'> & {
   showLegend?: boolean;
   category: string; // '品牌'
-  series: Array<{ name: string; type: ChartType }>; // [{name:销量: type:'bar'}],
+  series: Array<{ name: string; type?: ChartType }>; // [{name:销量: type:'bar'}],
   groupResult: GroupResult; // [{"大众": {销量: 39}}]
 };
 
@@ -22,7 +22,7 @@ export function SimpleChart(props: SimpleChartProps) {
       (options, item) => {
         return {
           names: [...options.names, item.name],
-          series: [...options.series, { type: item.type }],
+          series: [...options.series, { type: item.type || 'bar' }],
         };
       },
       {
@@ -53,7 +53,7 @@ export function SimpleChart(props: SimpleChartProps) {
 
   return (
     <ChartPaper {...paperProps}>
-      <ReactECharts option={option} style={{ height: 300 }} />
+      <ReactECharts option={option} style={{ height: 300 }} size={props.size} />
     </ChartPaper>
   );
 }
