@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/narvi/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/narvi/static/js/main.ff92ca27.chunk.js",
-    "main.js.map": "/narvi/static/js/main.ff92ca27.chunk.js.map",
+    "main.js": "/narvi/static/js/main.8d910a9c.chunk.js",
+    "main.js.map": "/narvi/static/js/main.8d910a9c.chunk.js.map",
     "runtime-main.js": "/narvi/static/js/runtime-main.13d90219.js",
     "runtime-main.js.map": "/narvi/static/js/runtime-main.13d90219.js.map",
     "static/css/2.1055baed.chunk.css": "/narvi/static/css/2.1055baed.chunk.css",
@@ -29,6 +29,6 @@
     "static/css/2.1055baed.chunk.css",
     "static/js/2.fc921025.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.ff92ca27.chunk.js"
+    "static/js/main.8d910a9c.chunk.js"
   ]
 }
