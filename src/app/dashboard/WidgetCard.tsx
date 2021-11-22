@@ -29,7 +29,7 @@ export const WidgetCard = (props: WidgetCardProps) => {
 
   const handleEdit = () => {
     setMenuAnchor(null);
-    navigate(`/dashboard/${widget.id}`);
+    navigate(`/narvi/dashboard/${widget.id}`);
   };
 
   if (!groupResult) {

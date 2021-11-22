@@ -1,13 +1,13 @@
-import React from "react";
-import { Provider } from "react-redux";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { store, useAppSelector, fetchAll } from "app/store";
-import theme from "./theme";
-import { LandingPage } from "./landing";
-import { DashboardPage } from "./dashboard";
-import { WidgetPage, NewWidgetPage } from "./editor";
-import { NotFound } from "./NotFound";
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { store, useAppSelector, fetchAll } from 'app/store';
+import theme from './theme';
+import { LandingPage } from './landing';
+import { DashboardPage } from './dashboard';
+import { WidgetPage, NewWidgetPage } from './editor';
+import { NotFound } from './NotFound';
 
 const AppRoutes = () => {
   const auth = useAppSelector((state) => state.auth);
@@ -16,9 +16,9 @@ const AppRoutes = () => {
   }
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/404" element={<NotFound />} />
-      <Route path="/dashboard">
+      <Route path="/narvi" element={<LandingPage />} />
+      <Route path="/narvi/404" element={<NotFound />} />
+      <Route path="/narvi/dashboard">
         <Route index element={<DashboardPage />} />
         <Route path="new" element={<NewWidgetPage />} />
         <Route path=":id" element={<WidgetPage />} />

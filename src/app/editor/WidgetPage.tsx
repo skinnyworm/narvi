@@ -36,7 +36,7 @@ export function WidgetPage() {
         <Container component="article">
           <Toolbar />
           <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" to="/dashboard">
+            <Link underline="hover" color="inherit" to="/narvi/dashboard">
               Dashboard
             </Link>
             <Typography color="text.primary">{widget.title}</Typography>

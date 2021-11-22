@@ -13,9 +13,9 @@ export default {
 } as Meta;
 
 const Template: Story<AppProviderProps> = (args) => (
-  <AppProvider path="/dashboard/example">
+  <AppProvider path="/narvi/dashboard/example">
     <Routes>
-      <Route path="/dashboard/:id" element={<WidgetPage />} />
+      <Route path="/narvi/dashboard/:id" element={<WidgetPage />} />
     </Routes>
   </AppProvider>
 );

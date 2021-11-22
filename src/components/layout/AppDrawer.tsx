@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Avatar,
   Box,
@@ -9,10 +9,10 @@ import {
   ListItemButton,
   Stack,
   Typography,
-} from "@mui/material";
-import { useAppSelector } from "app/store";
-import { genAvatar } from "./avatars";
-import { useNavigate, useMatch } from "react-router-dom";
+} from '@mui/material';
+import { useAppSelector } from 'app/store';
+import { genAvatar } from './avatars';
+import { useNavigate, useMatch } from 'react-router-dom';
 
 export const drawerWidth = 300;
 
@@ -22,21 +22,17 @@ const menuItems: Array<{
   exact?: boolean;
 }> = [
   {
-    uri: "/",
-    label: "Home",
+    uri: '/narvi',
+    label: 'Home',
     exact: true,
   },
   {
-    uri: "/dashboard",
-    label: "Dashboard",
+    uri: '/narvi/dashboard',
+    label: 'Dashboard',
   },
 ];
 
-const ListItem = (props: {
-  children: React.ReactNode;
-  exact?: boolean;
-  to: string;
-}) => {
+const ListItem = (props: { children: React.ReactNode; exact?: boolean; to: string }) => {
   const { exact = false, to } = props;
   const matched = Boolean(useMatch({ path: to, end: Boolean(exact) }));
   const navigate = useNavigate();
@@ -48,16 +44,11 @@ const ListItem = (props: {
         onClick={() => navigate(to)}
         disabled={matched}
         sx={{
-          "&.Mui-disabled": {
+          '&.Mui-disabled': {
             opacity: 1,
           },
-        }}
-      >
-        <Typography
-          variant="h6"
-          align="center"
-          sx={{ flex: 1, color: matched ? "text.primary" : "text.disabled" }}
-        >
+        }}>
+        <Typography variant="h6" align="center" sx={{ flex: 1, color: matched ? 'text.primary' : 'text.disabled' }}>
           {props.children}
         </Typography>
       </ListItemButton>
@@ -79,16 +70,11 @@ export function AppDrawer() {
         {userInfo ? (
           <>
             <Avatar
-              sx={{ width: 96, height: 96, bgcolor: "primary.light" }}
-              src={
-                userInfo.photoURL ||
-                genAvatar(userInfo.displayName || userInfo.email!)
-              }
+              sx={{ width: 96, height: 96, bgcolor: 'primary.light' }}
+              src={userInfo.photoURL || genAvatar(userInfo.displayName || userInfo.email!)}
             />
-            <Box sx={{ textAlign: "center" }}>
-              <Typography variant="subtitle1">
-                {userInfo.displayName}
-              </Typography>
+            <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="subtitle1">{userInfo.displayName}</Typography>
               <Typography variant="body2" color="textSecondary">
                 {userInfo.email}
               </Typography>
@@ -101,9 +87,8 @@ export function AppDrawer() {
           <Button
             color="secondary"
             onClick={() => {
-              navigate("/auth/signin");
-            }}
-          >
+              navigate('/narvi/auth/signin');
+            }}>
             Signin
           </Button>
         )}

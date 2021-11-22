@@ -31,7 +31,7 @@ export function NewWidgetPage() {
         <Container component="article">
           <Toolbar />
           <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" to="/dashboard">
+            <Link underline="hover" color="inherit" to="/narvi/dashboard">
               Dashboard
             </Link>
             <Typography color="text.primary">New Widget</Typography>
