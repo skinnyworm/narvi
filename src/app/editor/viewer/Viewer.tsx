@@ -24,7 +24,11 @@ export function Viewer(props: ViewerProps) {
     if (datasource) {
       if (widget.label && datasource.meta.schema.findIndex((s) => `$${s.field}` === widget.label!.trim()) >= 0)
         if (widget.output && widget.output.length > 0) {
-          return group(datasource, widget.label, widget.output);
+          try {
+            return group(datasource, widget.label, widget.output);
+          } catch (err) {
+            console.error(err);
+          }
         }
     }
   }, [datasource, widget]);

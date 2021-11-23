@@ -6,19 +6,19 @@ import { geoCoordMap } from './geoCoordMap';
 
 const colors = ['#f4e925', '#f37848'];
 
-type Series = {
+export type BmapChartOptions = Pick<BmapChartProps, 'title' | 'showLegend' | 'category' | 'series'>;
+
+export type BmapChartSeries = {
   name: string;
   showLabel?: boolean;
   color?: string;
   size?: 'flat' | 'scaled';
 };
 
-export type BmapChartOptions = Pick<BmapChartProps, 'title' | 'showLegend' | 'category' | 'series'>;
-
 export type BmapChartProps = Omit<ChartPaperProps, 'children'> & {
   showLegend?: boolean;
   category?: 'city' | 'province';
-  series: Series[];
+  series: BmapChartSeries[];
   groupResult: GroupResult; // [{"上海": {销量: 39}}]
 };
 

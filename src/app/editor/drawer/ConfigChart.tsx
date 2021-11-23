@@ -1,4 +1,5 @@
 import React from 'react';
+import update from 'immutability-helper';
 import {
   Box,
   Checkbox,
@@ -24,9 +25,10 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Clear';
 import DeleteIcon from '@mui/icons-material/Delete';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Check from '@mui/icons-material/Check';
 import { ChartSpec, OutputSpec, Widget } from 'app/types';
-import update from 'immutability-helper';
-import { WidgetSize } from 'components/charts/ChartPaper';
+import { WidgetSize, SimpleChartSeries, SimpleChartType } from 'components/charts';
 
 export type ConfigChartProps = {
   value: Partial<Widget>;
@@ -44,7 +46,7 @@ const createSimpleChart = (output: OutputSpec[]): ChartSpec => {
     type: 'simple',
     title: '基本图表',
     size: 'medium',
-    showLegend: false,
+    showLegend: true,
     category: 'label',
     series: output.map((item) => ({
       name: item.name,
@@ -58,7 +60,7 @@ const createRadarChart = (output: OutputSpec[]): ChartSpec => {
     type: 'radar',
     title: '雷达图',
     size: 'medium',
-    showLegend: false,
+    showLegend: true,
     category: 'label',
     series: output.map((item) => ({
       name: item.name,
@@ -194,6 +196,31 @@ export function ConfigChart(props: ConfigChartProps) {
   );
 }
 
+const CheckedMenuItem = ({
+  checked,
+  children,
+  onClick,
+}: {
+  checked: boolean;
+  children: React.ReactNode;
+  onClick: () => void;
+}) => {
+  return checked ? (
+    <MenuItem onClick={onClick}>
+      <ListItemIcon>
+        <Check />
+      </ListItemIcon>
+      {children}
+    </MenuItem>
+  ) : (
+    <MenuItem>
+      <ListItemText onClick={onClick} inset>
+        {children}
+      </ListItemText>
+    </MenuItem>
+  );
+};
+
 const ChartForm = ({
   output,
   value: chartSpec,
@@ -205,12 +232,62 @@ const ChartForm = ({
   onChange: (value: ChartSpec) => void;
   onClose: () => void;
 }) => {
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+
   const handleApplyOutput = (item: OutputSpec, apply: boolean) => {
     if (apply) {
       onChange(update(chartSpec, { series: { $push: [{ name: item.name }] } }));
     } else {
       const index = chartSpec.series.findIndex((series) => series.name === item.name);
       onChange(update(chartSpec, { series: { $splice: [[index, 1]] } }));
+    }
+  };
+
+  const secondaryAction = (index: number) => {
+    switch (chartSpec.type) {
+      case 'simple': {
+        const series = chartSpec.series[index] as SimpleChartSeries;
+
+        const updateSimpleSeries = (chartType: SimpleChartType) => {
+          const nextSeries: SimpleChartSeries = { ...series, type: chartType };
+          const nextChartSpec = update(chartSpec, { series: { [index]: { $set: nextSeries } } });
+          console.log(index, nextChartSpec);
+          onChange(nextChartSpec);
+          setAnchorEl(null);
+        };
+        return (
+          <>
+            <IconButton
+              onClick={(e) => {
+                setAnchorEl(e.currentTarget);
+              }}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={() => setAnchorEl(null)}>
+              {['line', 'bar', 'scatter'].map((chartType) => {
+                return (
+                  <CheckedMenuItem
+                    key={chartType}
+                    checked={series.type === chartType}
+                    onClick={() => updateSimpleSeries(chartType as SimpleChartType)}>
+                    {chartType}
+                  </CheckedMenuItem>
+                );
+              })}
+            </Menu>
+          </>
+        );
+      }
+
+      case 'bmap':
+        return (
+          <IconButton onClick={() => {}}>
+            <MoreVertIcon />
+          </IconButton>
+        );
+
+      default:
+        return null;
     }
   };
 
@@ -246,12 +323,12 @@ const ChartForm = ({
           </FormControl>
         )}
         <List>
-          {output.map((item) => {
+          {output.map((item, i) => {
             const series = chartSpec.series.find((series) => series.name === item.name);
             const checked = series !== undefined;
             return (
               <React.Fragment key={item.name}>
-                <ListItem dense disablePadding>
+                <ListItem dense disablePadding secondaryAction={checked && secondaryAction(i)}>
                   <ListItemButton onClick={() => handleApplyOutput(item, !checked)}>
                     <ListItemIcon>
                       <Checkbox edge="start" checked={checked} tabIndex={-1} disableRipple />

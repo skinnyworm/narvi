@@ -4,21 +4,25 @@ import { GroupResult } from 'app/editor/group';
 import { ReactECharts } from './ReactECharts';
 import { ChartPaper, ChartPaperProps } from './ChartPaper';
 
-type ChartType = 'line' | 'bar' | 'scatter';
-
 export type SimpleChartOptions = Omit<SimpleChartProps, 'groupResult'>;
 
+export type SimpleChartType = 'line' | 'bar' | 'scatter';
+
+export type SimpleChartSeries = {
+  name: string;
+  type?: SimpleChartType;
+};
 export type SimpleChartProps = Omit<ChartPaperProps, 'children'> & {
   showLegend?: boolean;
   category: string; // '品牌'
-  series: Array<{ name: string; type?: ChartType }>; // [{name:销量: type:'bar'}],
+  series: Array<SimpleChartSeries>; // [{name:销量: type:'bar'}],
   groupResult: GroupResult; // [{"大众": {销量: 39}}]
 };
 
 export function SimpleChart(props: SimpleChartProps) {
   const { showLegend = true, category, series: seriesData, groupResult, ...paperProps } = props;
   const chartOptions = React.useMemo<Partial<EChartsOption>>(() => {
-    const { names, series } = seriesData.reduce<{ names: string[]; series: Array<{ type: ChartType }> }>(
+    const { names, series } = seriesData.reduce<{ names: string[]; series: Array<{ type: SimpleChartType }> }>(
       (options, item) => {
         return {
           names: [...options.names, item.name],
