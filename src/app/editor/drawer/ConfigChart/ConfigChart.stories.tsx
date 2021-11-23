@@ -2,7 +2,6 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { ConfigChart, ConfigChartProps } from './ConfigChart';
 import { Container, Box } from '@mui/material';
-import { Config } from '@testing-library/dom';
 import { Widget } from 'app/types';
 
 export default {

@@ -3,8 +3,8 @@ import { Box, Stepper, Step, StepLabel, StepContent, Button } from '@mui/materia
 import { useAppSelector } from 'app/store';
 import { Widget } from 'app/types';
 import { SelectDatasource } from './SelectDatasource';
-import { ConfigGrouping } from './ConfigGrouping';
-import { ConfigChart } from './ConfigChart';
+import { ConfigGrouping } from './ConfigGrouping/ConfigGrouping';
+import { ConfigChart } from './ConfigChart/ConfigChart';
 
 export type EditorStepsProps = {
   widget: Partial<Widget>;
